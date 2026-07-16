@@ -22,8 +22,13 @@ type LoginResponse {
   token: String!
 }
 
+type ValidateTokenResponse {
+  isValid: Boolean!
+  user: User!
+}
+
 type Query {
-  hello: String!
+  validateToken(token: String!): ValidateTokenResponse!
 }
 
 type Mutation {

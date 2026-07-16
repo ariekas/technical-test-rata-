@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AuthInput } from './dto/auth.input';
-import { LoginResponse, RegisterResponse } from './models/auth.model';
+import { LoginResponse, RegisterResponse, ValidateTokenResponse } from './models/auth.model';
 import { User } from '@prisma/client';
 
 
@@ -60,6 +60,22 @@ export class AuthService {
       token,
     };
   }
+
+  async validateToken(token: string): Promise<ValidateTokenResponse> {
+    try {
+      const payload = this.jwtService.verify(token);
+      
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.id },
+      });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      return { isValid: true, user };
+    } catch (error) {
+      throw new Error('Invalid or expired token');
+    }
+  }
 }
-
-

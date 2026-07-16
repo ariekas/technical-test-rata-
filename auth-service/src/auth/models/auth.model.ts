@@ -12,3 +12,12 @@ export class LoginResponse {
   @Field()
   token: string;
 }
+
+@ObjectType()
+export class ValidateTokenResponse {
+  @Field()
+  isValid: boolean;
+
+  @Field(() => User)
+  user: User;
+}
