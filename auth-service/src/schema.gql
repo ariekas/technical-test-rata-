@@ -18,12 +18,17 @@ type RegisterResponse {
   user: User!
 }
 
+type LoginResponse {
+  token: String!
+}
+
 type Query {
   hello: String!
 }
 
 type Mutation {
   register(input: AuthInput!): RegisterResponse!
+  login(input: AuthInput!): LoginResponse!
 }
 
 input AuthInput {

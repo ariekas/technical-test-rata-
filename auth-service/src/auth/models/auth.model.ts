@@ -6,3 +6,9 @@ export class RegisterResponse {
   @Field(() => User)
   user: User;
 }
+
+@ObjectType()
+export class LoginResponse {
+  @Field()
+  token: string;
+}
