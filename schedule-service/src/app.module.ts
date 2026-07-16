@@ -10,6 +10,7 @@ import { AppService } from './app.service';
 
 
 import { AppResolver } from './app.resolver';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -29,6 +30,8 @@ import { AppResolver } from './app.resolver';
         }),
       }),
     }),
+
+    CustomerModule,
 
   ],
   controllers: [AppController],
