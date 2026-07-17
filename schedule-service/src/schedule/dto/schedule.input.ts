@@ -1,5 +1,5 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { IsNotEmpty, IsUUID, IsDate } from "class-validator";
+import { IsNotEmpty, IsUUID, IsDate, IsOptional } from "class-validator";
 import { Transform } from "class-transformer";
 
 @InputType()
@@ -24,3 +24,22 @@ export class CreateScheduleInput {
     @IsNotEmpty()
     scheduledAt: Date;
 }
+
+@InputType()
+export class ScheduleFilterInput {
+    @Field({ nullable: true })
+    @IsUUID()
+    @IsOptional()
+    customerId?: string;
+
+    @Field({ nullable: true })
+    @IsUUID()
+    @IsOptional()
+    doctorId?: string;
+
+    @Field({ nullable: true })
+    @IsDate()
+    @IsOptional()
+    date?: Date;
+}
+

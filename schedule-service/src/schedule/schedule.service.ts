@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
-import { CreateScheduleInput } from "./dto/schedule.input";
+import { CreateScheduleInput, ScheduleFilterInput } from "./dto/schedule.input";
 import { Schedule } from "./models/schedule.model";
+import { PaginationInput } from "../common/dto/pagination.input";
+import { paginate } from "../common/paginate";
 
 @Injectable()
 export class ScheduleService {
@@ -10,12 +12,23 @@ export class ScheduleService {
   async create(input: CreateScheduleInput): Promise<Schedule> {
     const doctor = await this.prisma.doctor.findUnique({ where: { id: input.doctorId } });
     if (!doctor) {
-      throw new NotFoundException("Doctor not found");
+      throw new Error("Doctor not found");
     }
 
     const customer = await this.prisma.customer.findUnique({ where: { id: input.customerId } });
     if (!customer) {
-      throw new NotFoundException("Customer not found");
+      throw new Error("Customer not found");
+    }
+
+    const checkDoctorSchedule = await this.prisma.schedule.findFirst({
+      where: {
+        doctorId: input.doctorId,
+        scheduledAt: input.scheduledAt,
+      },
+    });
+
+    if (checkDoctorSchedule) {
+      throw new Error("Doctor already has a schedule at this time");
     }
 
     return this.prisma.schedule.create({
@@ -31,4 +44,46 @@ export class ScheduleService {
       }
     });
   }
+
+  async getAll(pagination?: PaginationInput, filter?: ScheduleFilterInput) {
+    const where: any = {};
+
+    if (filter?.customerId) {
+      where.customerId = filter.customerId;
+    }
+
+    if (filter?.doctorId) {
+      where.doctorId = filter.doctorId;
+    }
+
+    if (filter?.date) {
+      const minDate = new Date(filter.date);
+      minDate.setUTCHours(0, 0, 0, 0);
+      const maxDate = new Date(filter.date);
+      maxDate.setUTCHours(23, 59, 59, 999);
+      where.scheduledAt = {
+        gte: minDate,
+        lte: maxDate,
+      };
+    }
+
+    return paginate<Schedule>(
+      this.prisma.schedule,
+      {
+        where,
+        orderBy: {
+          scheduledAt: 'desc',
+        },
+        include: {
+          customer: true,
+          doctor: true,
+        },
+      },
+      {
+        page: pagination?.page,
+        limit: pagination?.limit,
+      },
+    );
+  }
 }
+

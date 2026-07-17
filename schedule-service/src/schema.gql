@@ -50,17 +50,32 @@ type Schedule {
   doctor: Doctor
 }
 
+type PaginatedSchedule {
+  items: [Schedule!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
 type Query {
   hello: String!
   customers(pagination: PaginationInput): PaginatedCustomer!
   customer(id: String!): Customer
   doctor(id: String!): Doctor
   doctors(pagination: PaginationInput): PaginatedDoctor!
+  schedules(pagination: PaginationInput, filter: ScheduleFilterInput): PaginatedSchedule!
 }
 
 input PaginationInput {
   page: Int! = 1
   limit: Int! = 10
+}
+
+input ScheduleFilterInput {
+  customerId: String
+  doctorId: String
+  date: DateTime
 }
 
 type Mutation {

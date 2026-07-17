@@ -1,7 +1,8 @@
-import { Resolver, Mutation, Args } from "@nestjs/graphql";
+import { Resolver, Mutation, Args, Query } from "@nestjs/graphql";
 import { ScheduleService } from "./schedule.service";
-import { Schedule } from "./models/schedule.model";
-import { CreateScheduleInput } from "./dto/schedule.input";
+import { Schedule, PaginatedSchedule } from "./models/schedule.model";
+import { CreateScheduleInput, ScheduleFilterInput } from "./dto/schedule.input";
+import { PaginationInput } from "../common/dto/pagination.input";
 
 @Resolver(() => Schedule)
 export class ScheduleResolver {
@@ -12,5 +13,13 @@ export class ScheduleResolver {
     @Args('input') input: CreateScheduleInput,
   ): Promise<Schedule> {
     return this.scheduleService.create(input);
+  }
+
+  @Query(() => PaginatedSchedule)
+  async schedules(
+    @Args('pagination', { nullable: true }) pagination?: PaginationInput,
+    @Args('filter', { nullable: true }) filter?: ScheduleFilterInput,
+  ): Promise<PaginatedSchedule> {
+    return this.scheduleService.getAll(pagination, filter);
   }
 }

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Field, ID, ObjectType, Int } from "@nestjs/graphql";
 import { Customer } from "../../customer/models/customer.model";
 import { Doctor } from "../../doctor/models/doctor.model";
 
@@ -31,3 +31,22 @@ export class Schedule {
     @Field(() => Doctor, { nullable: true })
     doctor?: Doctor;
 }
+
+@ObjectType()
+export class PaginatedSchedule {
+    @Field(() => [Schedule])
+    items: Schedule[];
+
+    @Field(() => Int)
+    total: number;
+
+    @Field(() => Int)
+    page: number;
+
+    @Field(() => Int)
+    limit: number;
+
+    @Field(() => Int)
+    totalPages: number;
+}
+
