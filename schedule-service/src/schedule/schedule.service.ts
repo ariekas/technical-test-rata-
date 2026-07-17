@@ -31,6 +31,17 @@ export class ScheduleService {
       throw new Error("Doctor already has a schedule at this time");
     }
 
+    const checkDoctorSchedule = await this.prisma.schedule.findFirst({
+      where: {
+        doctorId: input.doctorId,
+        scheduledAt: input.scheduledAt,
+      },
+    });
+
+    if (checkDoctorSchedule) {
+      throw new ConflictException("Doctor already has a schedule at this time");
+    }
+
     return this.prisma.schedule.create({
       data: {
         objective: input.objective,
