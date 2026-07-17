@@ -37,6 +37,7 @@ input PaginationInput {
 type Mutation {
   createCustomer(input: CreateCustomerInput!): Customer!
   updateCustomer(input: UpdateCustomerInput!): Customer!
+  deleteCustomer(id: String!): Customer!
 }
 
 input CreateCustomerInput {

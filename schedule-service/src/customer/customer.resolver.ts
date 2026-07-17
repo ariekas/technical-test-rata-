@@ -34,4 +34,11 @@ export class CustomerResolver {
   ): Promise<Customer> {
     return this.customerService.update(input);
   }
+
+  @Mutation(() => Customer)
+  async deleteCustomer(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Customer> {
+    return this.customerService.delete(id);
+  }
 }

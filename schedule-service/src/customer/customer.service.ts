@@ -68,4 +68,16 @@ export class CustomerService {
       where: { id },
     });
   }
+
+  async delete(id: string): Promise<Customer> {
+    const customer = await this.getCustomerByID(id);
+
+    if (!customer) {
+      throw new Error('Customer not found');
+    }
+
+    return this.prisma.customer.delete({
+      where: { id },
+    });
+  }
 }
