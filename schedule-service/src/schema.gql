@@ -26,6 +26,7 @@ type PaginatedCustomer {
 type Query {
   hello: String!
   customers(pagination: PaginationInput): PaginatedCustomer!
+  customer(id: String!): Customer
 }
 
 input PaginationInput {

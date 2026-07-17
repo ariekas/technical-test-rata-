@@ -14,6 +14,13 @@ export class CustomerResolver {
     return this.customerService.getAll(pagination);
   }
 
+  @Query(() => Customer, { nullable: true })
+  async customer(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Customer | null> {
+    return this.customerService.getCustomerByID(id);
+  }
+
   @Mutation(() => Customer)
   async createCustomer(
     @Args('input') input: CreateCustomerInput,
