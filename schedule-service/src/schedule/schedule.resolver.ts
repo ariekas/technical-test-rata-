@@ -22,4 +22,11 @@ export class ScheduleResolver {
   ): Promise<PaginatedSchedule> {
     return this.scheduleService.getAll(pagination, filter);
   }
+
+  @Query(() => Schedule, { nullable: true })
+  async schedule(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Schedule | null> {
+    return this.scheduleService.getScheduleByID(id);
+  }
 }

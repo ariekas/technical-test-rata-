@@ -85,5 +85,21 @@ export class ScheduleService {
       },
     );
   }
+
+  async getScheduleByID(id: string): Promise<Schedule> {
+    const schedule = await this.prisma.schedule.findUnique({
+      where: { id },
+      include: {
+        customer: true,
+        doctor: true,
+      },
+    });
+
+    if (!schedule) {
+      throw new Error("Schedule not found");
+    }
+
+    return schedule;
+  }
 }
 

@@ -65,6 +65,7 @@ type Query {
   doctor(id: String!): Doctor
   doctors(pagination: PaginationInput): PaginatedDoctor!
   schedules(pagination: PaginationInput, filter: ScheduleFilterInput): PaginatedSchedule!
+  schedule(id: String!): Schedule
 }
 
 input PaginationInput {
