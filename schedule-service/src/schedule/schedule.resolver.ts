@@ -1,10 +1,13 @@
 import { Resolver, Mutation, Args, Query } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
 import { ScheduleService } from "./schedule.service";
 import { Schedule, PaginatedSchedule } from "./models/schedule.model";
 import { CreateScheduleInput, ScheduleFilterInput } from "./dto/schedule.input";
 import { PaginationInput } from "../common/dto/pagination.input";
+import { AuthGuard } from "../common/guards/auth.guard";
 
 @Resolver(() => Schedule)
+@UseGuards(AuthGuard)
 export class ScheduleResolver {
   constructor(private readonly scheduleService: ScheduleService) {}
 
