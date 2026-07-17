@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { CustomerService } from './customer.service';
 import { Customer } from './models/customer.model';
-import { CreateCustomerInput } from './dto/customer.input';
+import { CreateCustomerInput, UpdateCustomerInput } from './dto/customer.input';
 
 @Resolver()
 export class CustomerResolver {
@@ -12,5 +12,12 @@ export class CustomerResolver {
     @Args('input') input: CreateCustomerInput,
   ): Promise<Customer> {
     return this.customerService.create(input);
+  }
+
+  @Mutation(() => Customer)
+  async updateCustomer(
+    @Args('input') input: UpdateCustomerInput,
+  ): Promise<Customer> {
+    return this.customerService.update(input);
   }
 }
