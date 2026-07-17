@@ -29,4 +29,11 @@ export class ScheduleResolver {
   ): Promise<Schedule | null> {
     return this.scheduleService.getScheduleByID(id);
   }
+
+  @Mutation(() => Schedule)
+  async deleteSchedule(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Schedule> {
+    return this.scheduleService.delete(id);
+  }
 }

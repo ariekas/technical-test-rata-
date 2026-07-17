@@ -101,5 +101,16 @@ export class ScheduleService {
 
     return schedule;
   }
+
+  async delete(id: string): Promise<Schedule> {
+    await this.getScheduleByID(id);
+    return this.prisma.schedule.delete({
+      where: { id },
+      include: {
+        customer: true,
+        doctor: true,
+      },
+    });
+  }
 }
 

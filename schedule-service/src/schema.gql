@@ -87,6 +87,7 @@ type Mutation {
   updateDoctor(input: UpdateDoctorInput!): Doctor!
   deleteDoctor(id: String!): Doctor!
   createSchedule(input: CreateScheduleInput!): Schedule!
+  deleteSchedule(id: String!): Schedule!
 }
 
 input CreateCustomerInput {
