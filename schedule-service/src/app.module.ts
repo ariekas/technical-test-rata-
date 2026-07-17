@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 
 import { AppResolver } from './app.resolver';
 import { CustomerModule } from './customer/customer.module';
+import { DoctorModule } from './doctor/doctor.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CustomerModule } from './customer/customer.module';
     }),
 
     CustomerModule,
+    DoctorModule,
 
   ],
   controllers: [AppController],
