@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { CreateScheduleInput } from "./dto/schedule.input";
 import { Schedule } from "./models/schedule.model";
@@ -16,6 +16,17 @@ export class ScheduleService {
     const customer = await this.prisma.customer.findUnique({ where: { id: input.customerId } });
     if (!customer) {
       throw new NotFoundException("Customer not found");
+    }
+
+    const checkDoctorSchedule = await this.prisma.schedule.findFirst({
+      where: {
+        doctorId: input.doctorId,
+        scheduledAt: input.scheduledAt,
+      },
+    });
+
+    if (checkDoctorSchedule) {
+      throw new ConflictException("Doctor already has a schedule at this time");
     }
 
     return this.prisma.schedule.create({
