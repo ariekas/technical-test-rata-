@@ -23,10 +23,39 @@ type PaginatedCustomer {
   totalPages: Int!
 }
 
+type Doctor {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PaginatedDoctor {
+  items: [Doctor!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type Schedule {
+  id: ID!
+  objective: String!
+  customerId: String!
+  doctorId: String!
+  scheduledAt: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  customer: Customer
+  doctor: Doctor
+}
+
 type Query {
   hello: String!
   customers(pagination: PaginationInput): PaginatedCustomer!
   customer(id: String!): Customer
+  doctor(id: String!): Doctor
+  doctors(pagination: PaginationInput): PaginatedDoctor!
 }
 
 input PaginationInput {
@@ -38,6 +67,10 @@ type Mutation {
   createCustomer(input: CreateCustomerInput!): Customer!
   updateCustomer(input: UpdateCustomerInput!): Customer!
   deleteCustomer(id: String!): Customer!
+  createDoctor(input: CreateDoctorInput!): Doctor!
+  updateDoctor(input: UpdateDoctorInput!): Doctor!
+  deleteDoctor(id: String!): Doctor!
+  createSchedule(input: CreateScheduleInput!): Schedule!
 }
 
 input CreateCustomerInput {
@@ -49,4 +82,20 @@ input UpdateCustomerInput {
   name: String
   email: String
   id: ID!
+}
+
+input CreateDoctorInput {
+  name: String!
+}
+
+input UpdateDoctorInput {
+  name: String
+  id: ID!
+}
+
+input CreateScheduleInput {
+  objective: String!
+  customerId: String!
+  doctorId: String!
+  scheduledAt: DateTime!
 }

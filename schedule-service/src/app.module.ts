@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
 import { CustomerModule } from './customer/customer.module';
 import { DoctorModule } from './doctor/doctor.module';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DoctorModule } from './doctor/doctor.module';
 
     CustomerModule,
     DoctorModule,
+    ScheduleModule,
 
   ],
   controllers: [AppController],
