@@ -18,15 +18,3 @@ export class UpdateDoctorInput extends PartialType(CreateDoctorInput) {
   id: string;
 }
 
-@InputType()
-export class PaginationInput {
-  @Field(() => Int, { defaultValue: 1 })
-  @IsOptional()
-  @Min(1)
-  page?: number = 1;
-
-  @Field(() => Int, { defaultValue: 10 })
-  @IsOptional()
-  @Min(1)
-  limit?: number = 10;
-}

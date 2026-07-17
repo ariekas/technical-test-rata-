@@ -1,7 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CustomerService } from './customer.service';
 import { Customer, PaginatedCustomer } from './models/customer.model';
-import { CreateCustomerInput, UpdateCustomerInput, PaginationInput } from './dto/customer.input';
+import { CreateCustomerInput, UpdateCustomerInput } from './dto/customer.input';
+import { PaginationInput } from '../common/dto/pagination.input';
 
 @Resolver()
 export class CustomerResolver {

@@ -1,16 +1,18 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { DoctorService } from './doctor.service';
 import { Doctor, PaginatedDoctor } from './models/doctor.model';
-import { CreateDoctorInput, UpdateDoctorInput, PaginationInput } from './dto/doctor.input';
+import {
+  CreateDoctorInput,
+  UpdateDoctorInput,
+} from './dto/doctor.input';
+import { PaginationInput } from '../common/dto/pagination.input';
 
 @Resolver()
 export class DoctorResolver {
   constructor(private readonly doctorService: DoctorService) {}
 
   @Mutation(() => Doctor)
-  async createDoctor(
-    @Args('input') input: CreateDoctorInput,
-  ): Promise<Doctor> {
+  async createDoctor(@Args('input') input: CreateDoctorInput): Promise<Doctor> {
     return this.doctorService.create(input);
   }
 
@@ -22,9 +24,7 @@ export class DoctorResolver {
   }
 
   @Mutation(() => Doctor)
-  async updateDoctor(
-    @Args('input') input: UpdateDoctorInput,
-  ): Promise<Doctor> {
+  async updateDoctor(@Args('input') input: UpdateDoctorInput): Promise<Doctor> {
     return this.doctorService.update(input);
   }
 

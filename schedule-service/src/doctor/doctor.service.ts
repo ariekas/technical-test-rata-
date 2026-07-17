@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateDoctorInput, UpdateDoctorInput, PaginationInput } from './dto/doctor.input';
+import {
+  CreateDoctorInput,
+  UpdateDoctorInput,
+} from './dto/doctor.input';
+import { PaginationInput } from '../common/dto/pagination.input';
 import { Doctor } from '@prisma/client';
 import { paginate } from '../common/paginate';
 

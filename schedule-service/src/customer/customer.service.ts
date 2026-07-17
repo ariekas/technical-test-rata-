@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateCustomerInput, UpdateCustomerInput, PaginationInput } from './dto/customer.input';
 import { Customer } from '@prisma/client';
 import { paginate } from '../common/paginate';
+import { CreateCustomerInput, UpdateCustomerInput } from './dto/customer.input';
+import { PaginationInput } from '../common/dto/pagination.input';
 
 @Injectable()
 export class CustomerService {
