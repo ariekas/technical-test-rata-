@@ -1,4 +1,5 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { DoctorService } from './doctor.service';
 import { Doctor, PaginatedDoctor } from './models/doctor.model';
 import {
@@ -6,8 +7,10 @@ import {
   UpdateDoctorInput,
 } from './dto/doctor.input';
 import { PaginationInput } from '../common/dto/pagination.input';
+import { AuthGuard } from '../common/guards/auth.guard';
 
 @Resolver()
+@UseGuards(AuthGuard)
 export class DoctorResolver {
   constructor(private readonly doctorService: DoctorService) {}
 

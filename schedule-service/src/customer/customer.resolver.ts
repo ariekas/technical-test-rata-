@@ -1,10 +1,13 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { Customer, PaginatedCustomer } from './models/customer.model';
 import { CreateCustomerInput, UpdateCustomerInput } from './dto/customer.input';
 import { PaginationInput } from '../common/dto/pagination.input';
+import { AuthGuard } from '../common/guards/auth.guard';
 
 @Resolver()
+@UseGuards(AuthGuard)
 export class CustomerResolver {
   constructor(private readonly customerService: CustomerService) {}
 
