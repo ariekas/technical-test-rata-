@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Field, ID, ObjectType, Int } from "@nestjs/graphql";
 
 @ObjectType()
 export class Customer {
@@ -16,4 +16,22 @@ export class Customer {
 
     @Field()
     updatedAt: Date;
+}
+
+@ObjectType()
+export class PaginatedCustomer {
+    @Field(() => [Customer])
+    items: Customer[];
+
+    @Field(() => Int)
+    total: number;
+
+    @Field(() => Int)
+    page: number;
+
+    @Field(() => Int)
+    limit: number;
+
+    @Field(() => Int)
+    totalPages: number;
 }

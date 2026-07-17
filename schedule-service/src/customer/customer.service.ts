@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateCustomerInput, UpdateCustomerInput } from './dto/customer.input';
+import { CreateCustomerInput, UpdateCustomerInput, PaginationInput } from './dto/customer.input';
 import { Customer } from '@prisma/client';
+import { paginate } from '../common/paginate';
 
 @Injectable()
 export class CustomerService {
@@ -41,6 +42,21 @@ export class CustomerService {
       where: { id },
       data,
     });
+  }
+
+  async getAll(pagination?: PaginationInput) {
+    return paginate<Customer>(
+      this.prisma.customer,
+      {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+      {
+        page: pagination?.page,
+        limit: pagination?.limit,
+      },
+    );
   }
 
   async getCustomerByEmail(email: string): Promise<Customer | null> {

@@ -15,8 +15,22 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type PaginatedCustomer {
+  items: [Customer!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
 type Query {
   hello: String!
+  customers(pagination: PaginationInput): PaginatedCustomer!
+}
+
+input PaginationInput {
+  page: Int! = 1
+  limit: Int! = 10
 }
 
 type Mutation {
