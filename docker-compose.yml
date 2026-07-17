@@ -57,6 +57,26 @@ services:
     networks:
       - hc_network
 
+  schedule-service:
+    build:
+      context: ./schedule-service
+      dockerfile: Dockerfile
+    container_name: schedule_service
+    ports:
+      - "3002:3002"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-schedule:5432/schedule_db?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PORT=3002
+      - AUTH_SERVICE_URL=http://auth-service:3001/graphql
+    depends_on:
+      - postgres-schedule
+      - redis
+      - auth-service
+    networks:
+      - hc_network
+
 volumes:
   pgdata_auth:
   pgdata_schedule:
