@@ -13,7 +13,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: true,
       context: ({ req, res }: any) => ({ req, res }),
     }),
     ThrottlerModule.forRoot([{
@@ -22,14 +22,20 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }]),
     CacheModule.registerAsync({
       isGlobal: true,
-      useFactory: async () => ({
-        store: await redisStore({
+      useFactory: async () => {
+        if (!process.env.REDIS_HOST) {
+          return {};
+        }
+
+        return {
+          store: await redisStore({
           socket: {
-            host: process.env.REDIS_HOST || 'localhost',
+            host: process.env.REDIS_HOST,
             port: parseInt(process.env.REDIS_PORT || '6379', 10),
           },
-        }),
-      }),
+          }),
+        };
+      },
     }),
     AuthModule,
   ],

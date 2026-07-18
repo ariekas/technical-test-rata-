@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY prisma ./prisma/
-RUN npm install
+RUN npm ci
 
 RUN npx prisma generate
 
@@ -19,7 +19,8 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
 EXPOSE 3002
 
-CMD ["npm", "run", "start:prod"]
+CMD ["sh", "-c", "npx prisma db push && npm run start:prod"]
