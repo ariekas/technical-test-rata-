@@ -22,7 +22,6 @@ services:
     image: redis:7-alpine
     container_name: redis_cache
     ports:
-      # Host port 6379 is already occupied; services use the internal port.
       - "6380:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
