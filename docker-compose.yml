@@ -100,10 +100,31 @@ services:
     networks:
       - hc_network
 
+  postgres-notification:
+    image: postgres:15-alpine
+    container_name: postgres_notification
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notification_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_notification:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d notification_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - hc_network
+
 volumes:
   pgdata_auth:
   pgdata_schedule:
+  pgdata_notification:
 
 networks:
   hc_network:
     driver: bridge
+
