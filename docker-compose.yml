@@ -119,6 +119,31 @@ services:
     networks:
       - hc_network
 
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    container_name: notification_service
+    ports:
+      - "3003:3003"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-notification:5432/notification_db?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PORT=3003
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+    depends_on:
+      postgres-notification:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - hc_network
+
 volumes:
   pgdata_auth:
   pgdata_schedule:
