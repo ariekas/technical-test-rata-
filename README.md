@@ -119,7 +119,7 @@ SMTP_FROM="Klinik Rata <no-reply@klinikrata.com>"
 1.  Pastikan Anda berada di direktori *root* proyek.
 2.  Jalankan perintah berikut:
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
 3.  Sistem secara otomatis akan menjalankan:
     *   **Auth Service** di `http://localhost:3001/graphql`
@@ -131,7 +131,7 @@ SMTP_FROM="Klinik Rata <no-reply@klinikrata.com>"
 
 1.  Pastikan database PostgreSQL dan Redis berjalan (bisa menggunakan Docker):
     ```bash
-    docker-compose up postgres-auth postgres-schedule postgres-notification redis -d
+    docker compose up postgres-auth postgres-schedule postgres-notification redis -d
     ```
 2.  Masuk ke masing-masing folder *service*, instal dependensi, jalankan migrasi Prisma database, lalu jalankan aplikasinya:
     ```bash
