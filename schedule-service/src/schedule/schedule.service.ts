@@ -73,7 +73,6 @@ export class ScheduleService {
       doctorId: newSchedule.doctor.id,
       doctorName: newSchedule.doctor.name,
     });
-
     await this.clearScheduleCache();
 
     return newSchedule;
@@ -165,7 +164,6 @@ export class ScheduleService {
       doctorId: deletedSchedule.doctor.id,
       doctorName: deletedSchedule.doctor.name,
     });
-
     await this.clearScheduleCache();
 
     return deletedSchedule;

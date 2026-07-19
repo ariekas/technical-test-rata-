@@ -21,12 +21,13 @@ export class AuthGuard implements CanActivate {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query: `
-            query {
-              validateToken(token: "${token}") {
+            query ValidateToken($token: String!) {
+              validateToken(token: $token) {
                 isValid
               }
             }
           `,
+          variables: { token },
         }),
       });
 
