@@ -23,8 +23,10 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3003;
   await app.listen(port);
-  console.log(`Notification Service is running on: http://localhost:${port}/graphql`);
+  console.log(
+    `Notification Service is running on: http://localhost:${port}/graphql`,
+  );
 }
-bootstrap();
-
-
+bootstrap().catch((err) => {
+  console.error('Error starting Notification Service:', err);
+});
