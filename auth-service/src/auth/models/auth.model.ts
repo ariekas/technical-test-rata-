@@ -1,23 +1,23 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { User } from './user.model';
 
-@ObjectType()
+@ObjectType({ description: 'Respon hasil registrasi akun baru' })
 export class RegisterResponse {
-  @Field(() => User)
+  @Field(() => User, { description: 'Data profil user yang berhasil dibuat' })
   user: User;
 }
 
-@ObjectType()
+@ObjectType({ description: 'Respon hasil login yang berisi token akses' })
 export class LoginResponse {
-  @Field()
+  @Field({ description: 'Access token JWT untuk autentikasi request selanjutnya' })
   token: string;
 }
 
-@ObjectType()
+@ObjectType({ description: 'Respon validasi token akses' })
 export class ValidateTokenResponse {
-  @Field()
+  @Field({ description: 'Menunjukkan apakah token yang diperiksa valid atau tidak' })
   isValid: boolean;
 
-  @Field(() => User)
+  @Field(() => User, { description: 'Data profil user pemilik token' })
   user: User;
 }

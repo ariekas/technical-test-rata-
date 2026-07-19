@@ -1,34 +1,34 @@
 import { Field, ID, ObjectType, Int } from "@nestjs/graphql";
 
-@ObjectType()
+@ObjectType({ description: 'Data entitas Dokter (Doctor)' })
 export class Doctor {
-    @Field(() => ID)
+    @Field(() => ID, { description: 'ID unik dokter' })
     id: string;
 
-    @Field(() => String)
+    @Field(() => String, { description: 'Nama lengkap dokter' })
     name: string;
 
-    @Field()
+    @Field({ description: 'Waktu dokter didaftarkan' })
     createdAt: Date;
 
-    @Field()
+    @Field({ description: 'Waktu pembaruan data dokter terakhir kali' })
     updatedAt: Date;
 }
 
-@ObjectType()
+@ObjectType({ description: 'Data dokter dengan format paginasi' })
 export class PaginatedDoctor {
-    @Field(() => [Doctor])
+    @Field(() => [Doctor], { description: 'Daftar dokter pada halaman aktif' })
     items: Doctor[];
 
-    @Field(() => Int)
+    @Field(() => Int, { description: 'Jumlah total dokter yang terdaftar' })
     total: number;
 
-    @Field(() => Int)
+    @Field(() => Int, { description: 'Nomor halaman saat ini' })
     page: number;
 
-    @Field(() => Int)
+    @Field(() => Int, { description: 'Batas jumlah data per halaman' })
     limit: number;
 
-    @Field(() => Int)
+    @Field(() => Int, { description: 'Jumlah total halaman yang tersedia' })
     totalPages: number;
 }
