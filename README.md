@@ -131,7 +131,7 @@ SMTP_FROM="Klinik Rata <no-reply@klinikrata.com>"
 
 1.  Pastikan database PostgreSQL dan Redis berjalan (bisa menggunakan Docker):
     ```bash
-    docker compose up postgres-auth postgres-schedule postgres-notification redis -d
+     docker compose --env-file ./notification-service/.env up postgres-auth postgres-schedule postgres-notification redis -d
     ```
 2.  Masuk ke masing-masing folder *service*, instal dependensi, jalankan migrasi Prisma database, lalu jalankan aplikasinya:
     ```bash
