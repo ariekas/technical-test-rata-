@@ -12,8 +12,8 @@ model Notification {
   customerId  String   @db.Uuid
   doctorId    String   @db.Uuid
   scheduledAt DateTime
-  status      String   @default("SENT") // e.g. SENT, FAILED
-  type        String   // e.g. CREATE, DELETE
+  status      String   @default("SENT")
+  type        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
