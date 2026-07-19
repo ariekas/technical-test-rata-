@@ -7,7 +7,7 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ThrottlerModule } from '@nestjs/throttler';
+
 
 @Module({
   imports: [
@@ -16,10 +16,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
       autoSchemaFile: true,
       context: ({ req, res }: any) => ({ req, res }),
     }),
-    ThrottlerModule.forRoot([{
-      ttl: 120000, 
-      limit: 5,
-    }]),
+
     CacheModule.registerAsync({
       isGlobal: true,
       useFactory: async () => {

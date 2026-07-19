@@ -47,13 +47,13 @@ export class AuthService {
 
     const user = await this.GetUserByEmail(input.email)
     if (!user) {
-      throw new Error('User not registered');
+      throw new Error('Email atau Password salah');
     }
 
     const checkPasswordValid = await bcrypt.compare(input.password, user.password)
 
     if (!checkPasswordValid) {
-      throw new Error('Invalid password');
+      throw new Error('Email atau Password salah');
     }
     const token = this.jwtService.sign({ id: user.id });
     return {
