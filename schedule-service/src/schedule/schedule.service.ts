@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
+import { Injectable, NotFoundException, ConflictException, Inject } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
 import { PrismaService } from "../prisma.service";
 import { CreateScheduleInput, ScheduleFilterInput } from "./dto/schedule.input";
 import { Schedule, PaginatedSchedule } from "./models/schedule.model";
@@ -11,6 +12,7 @@ export class ScheduleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly redisService: RedisService,
+    @Inject('NOTIFICATION_SERVICE') private readonly notificationClient: ClientProxy,
   ) {}
 
   private getCacheKey(pagination?: PaginationInput, filter?: ScheduleFilterInput): string {
@@ -62,6 +64,15 @@ export class ScheduleService {
       }
     });
 
+    this.notificationClient.emit('schedule_created', {
+      objective: newSchedule.objective,
+      scheduledAt: newSchedule.scheduledAt.toISOString(),
+      customerId: newSchedule.customer.id,
+      customerName: newSchedule.customer.name,
+      customerEmail: newSchedule.customer.email,
+      doctorId: newSchedule.doctor.id,
+      doctorName: newSchedule.doctor.name,
+    });
     await this.clearScheduleCache();
 
     return newSchedule;
@@ -144,6 +155,15 @@ export class ScheduleService {
       },
     });
 
+    this.notificationClient.emit('schedule_deleted', {
+      objective: deletedSchedule.objective,
+      scheduledAt: deletedSchedule.scheduledAt.toISOString(),
+      customerId: deletedSchedule.customer.id,
+      customerName: deletedSchedule.customer.name,
+      customerEmail: deletedSchedule.customer.email,
+      doctorId: deletedSchedule.doctor.id,
+      doctorName: deletedSchedule.doctor.name,
+    });
     await this.clearScheduleCache();
 
     return deletedSchedule;
